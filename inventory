@@ -1,0 +1,13 @@
+[nodes]
+node0
+node1
+node2
+node3
+
+[head]
+node0
+
+[wn]
+node1
+node2
+node3
