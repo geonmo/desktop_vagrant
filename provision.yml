@@ -1,6 +1,7 @@
 ---
 - name: provisioning
-  hosts: all
+  hosts: 127.0.0.1
+  connection: local
   gather_facts: yes
   become: true
   vars:
@@ -13,16 +14,19 @@
       with_items:
       - "{{ users }}"
     - file:
-        path: "~{{ item.userid }}/.ssh/authorized_keys"
+        path: "~{{ item.userid }}/.ssh"
         owner: "{{ item.userid }}"
         group: "{{ item.userid }}"
         mode: "0644"
-        state: file
+        state: directory
       with_items:
       - "{{ users }}"
-    - lineinfile:
-        path: "~{{ item.userid }}/.ssh/authorized_keys"
-        line: "{{ item.sshpubkey }}"
+    - copy:
+        dest: "~{{ item.userid }}/.ssh/authorized_keys"
+        contents: "{{ item.sshpubkey }}"
+        owner: "{{ item.userid }}"
+        group: "{{ item.userid }}"
+        mode: "0644"
       with_items:
       - "{{ users }}"
     - lineinfile:
