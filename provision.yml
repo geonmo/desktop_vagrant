@@ -23,7 +23,7 @@
       - "{{ users }}"
     - copy:
         dest: "~{{ item.userid }}/.ssh/authorized_keys"
-        contents: "{{ item.sshpubkey }}"
+        content: "{{ item.sshpubkey }}"
         owner: "{{ item.userid }}"
         group: "{{ item.userid }}"
         mode: "0644"
