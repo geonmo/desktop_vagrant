@@ -31,7 +31,7 @@
       - "{{ users }}"
     - lineinfile:
         path: "/etc/hosts"
-        line: "10.0.3.2 node0.intranet.local    node0\n10.0.3.3  node1.intranet.local    node1\n10.0.3.4  node2.intranet.local    node2\n10.0.3.5  node3.intranet.local    node3\n"
+        line: "192.168.10.3 node0.intranet.local    node0\n192.168.10.4  node1.intranet.local    node1\n192.168.10.5  node2.intranet.local    node2\n192.168.10.6  node3.intranet.local    node3\n"
     - copy:
         dest: "/etc/sudoers.d/geonmo"
         content: "geonmo    ALL=(ALL)   NOPASSWD: ALL"
