@@ -1,0 +1,7 @@
+- name: install epel repo, grid and pool account setting
+  hosts: all
+  vars:
+    epel_repo_gpg_key_url: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+  roles:
+    - role: geerlingguy.repo-epel
+
