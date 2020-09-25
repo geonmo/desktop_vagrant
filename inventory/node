@@ -1,0 +1,16 @@
+[node]
+node0.intranet.local
+node1.intranet.local
+node2.intranet.local
+node3.intranet.local
+
+
+[xrootd-xrd]
+
+[xrootd-server]
+
+
+[dcache-frontend]
+
+[dcache-pool]
+
