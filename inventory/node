@@ -5,12 +5,13 @@ node2.intranet.local
 node3.intranet.local
 
 
-[xrootd-xrd]
+[client]
+node0.intranet.local
 
-[xrootd-server]
+[frontend]
+node1.intranet.local
 
-
-[dcache-frontend]
-
-[dcache-pool]
+[backend]
+node2.intranet.local
+node3.intranet.local
 
