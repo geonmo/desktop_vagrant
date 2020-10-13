@@ -3,7 +3,7 @@
 #sudo yum update -y ansible
 
 ansible-galaxy install geerlingguy.repo-epel
-
+git clone git@github.com:geonmo/ansiblie-role-xrootd.git roles/geonmo.xrootd
 
 ## Dueto KISTI security, 
 #./remote_install_rootca.sh
