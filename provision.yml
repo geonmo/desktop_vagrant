@@ -34,7 +34,7 @@
         line: "192.168.10.3 node0.intranet.local    node0\n192.168.10.4  node1.intranet.local    node1\n192.168.10.5  node2.intranet.local    node2\n192.168.10.6  node3.intranet.local    node3\n"
     - lineinfile:
         path: "/etc/hosts"
-        line: "192.168.20.3 node0.skynet.local  \n192.168.20.4  node1.skynet.local    node1\n192.168.20.5  node2.skynet.local    node2\n192.168.20.6  node3.skynet.local    node3\n"
+        line: "192.168.20.3 node0.skynet.local\n192.168.20.4  node1.skynet.local\n192.168.20.5  node2.skynet.local\n192.168.20.6  node3.skynet.local\n"
     - replace:
         path: /etc/hosts
         regexp: '^127.0.1.1\s*node?.*'
