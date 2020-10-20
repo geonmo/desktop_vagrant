@@ -15,7 +15,7 @@
        vars:
          type: "frontend"
          rdr: "node1.intranet.local"
-         device: "enp0s9"
+         device: "enp0s8"
       
 - name: XRootD for server
   hosts: backend
@@ -26,4 +26,4 @@
         type: "backend"
         dir: "/mnt/ramdisk"
         rdr: "node1.intranet.local"
-        device: "enp0s9"
+        device: "enp0s8"

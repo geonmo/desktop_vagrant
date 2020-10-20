@@ -1,0 +1,39 @@
+---
+- name: dCache for Client
+  become: true
+  hosts: client
+  roles:
+    - role: geonmo.dcache
+      vars:
+        type: "client"
+
+- name: dCache for dcache non-pool server
+  hosts: frontend
+  become: true
+  no_log: false
+  roles:
+    - role: geerlingguy.postgresql 
+      vars:
+        postgresql_hba_entries:
+          - { type: local, database: all, user: all, auth_method: trust }
+          - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: trust }
+          - { type: host, database: all, user: all, address: '::1/128', auth_method: trust }
+        postgresql_users:
+          - name: dcache
+            role_attr_flags: createdb
+        postgresql_databases:
+          - name: dcache
+            owner: dcache
+          - name: billing
+            owner: dcache
+    - role: geonmo.dcache
+      vars:
+        type: "frontend"
+      
+- name: dCache for dcache pool server
+  hosts: backend
+  become: true
+  roles:
+    - role: geonmo.dcache
+      vars:
+        type: "backend"

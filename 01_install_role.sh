@@ -2,7 +2,7 @@
 #sudo yum update -y
 #sudo yum update -y ansible
 
-#ansible-galaxy install geerlingguy.repo-epel
+ansible-galaxy install geerlingguy.
 git submodule init
 git submodule update
 
