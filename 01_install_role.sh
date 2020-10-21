@@ -2,7 +2,7 @@
 #sudo yum update -y
 #sudo yum update -y ansible
 
-ansible-galaxy install geerlingguy.postgresql
+ansible-galaxy collection install community.general
 git submodule init
 git submodule update
 
