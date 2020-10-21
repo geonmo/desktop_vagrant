@@ -1,3 +1,6 @@
 [submodule "roles/geonmo.xrootd"]
 	path = roles/geonmo.xrootd
 	url = https://github.com/geonmo/ansiblie-role-xrootd.git
+[submodule "roles/geonmo.dcache"]
+	path = roles/geonmo.dcache
+	url = https://github.com/geonmo/ansiblie-role-dcache.git
