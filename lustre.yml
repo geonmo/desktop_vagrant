@@ -1,0 +1,39 @@
+---
+- name: Install lustre repo
+  become: true
+  hosts: all
+  tasks:
+    - name: Create lustre yum repo file
+      yum_repository:
+        name: "{{ item.name }}"
+        description: "{{ item.desc }}"
+        file: lustre
+        baseurl: "{{ item.baseurl }}"
+        gpgcheck: no
+      with_items:
+        - { name: "hpddLustreserver", desc: "CentOS-$releasever - Lustre", baseurl: "http://build.whamcloud.com/job/lustre-master/arch=x86_64%2Cbuild_type=server%2Cdistro=el7.7%2Cib_stack=inkernel/lastSuccessfulBuild/artifact/artifacts/"}
+        - { name: "e2fsprogs", desc: "CentOS-$releasever - Ldiskfs", baseurl: "http://build.whamcloud.com/job/e2fsprogs-master/arch=x86_64%2Cdistro=el7/lastSuccessfulBuild/artifact/_topdir/RPMS/"}
+        - { name: 'hpddLustreclient', desc: 'CentOS-$releasever - Lustre Client', baseurl: 'http://build.whamcloud.com/job/lustre-master/arch=x86_64%2Cbuild_type=client%2Cdistro=el7.7%2Cib_stack=inkernel/lastSuccessfulBuild/artifact/artifacts/'}
+    ## Lustre install. Follow as https://wiki.lustre.org/Installing_the_Lustre_Software
+    - name: Check zfs release
+      stat:  
+        path: /etc/yum.repos.d/zfs.repo
+      register: stat_zfs_yumrepo
+    - name: Install zfs release
+      yum: 
+        name: "http://download.zfsonlinux.org/epel/zfs-release.el7_7.noarch.rpm"
+        state: present
+      when: not stat_zfs_yumrepo.stat.exists
+    - name: Install e2fsprogs package
+      yum:
+        name: "e2fsprogs"
+        disable_gpg_check: yes
+        enablerepo: "e2fsprogs"
+        state: latest
+    - name: Install lustre kernel
+      yum: 
+        name: ["kernel","kernel-devel","kernel-headers","kernel-tools","kernel-tools-libs","kernel-tools-libs-devel"]
+        disablerepo: base,extras,updates
+        state: latest
+        
+ 
