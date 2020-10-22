@@ -1,0 +1,40 @@
+---
+- name: Install lustre server packages
+  become: true
+  hosts: frontend,backend
+  tasks:
+    - name: Install lustre packages
+      yum: 
+        name: ['kmod-lustre','kmod-lustre-osd-ldiskfs','lustre-osd-ldiskfs-mount','lustre','lustre-resource-agents']
+        state: present
+      retries: 5
+    - name: Modify lnet option
+      copy:
+        dest: /etc/modprobe.d/lustre.conf
+        owner: root
+        group: root
+        content: "options lnet networks=\"tcp0(enp0s8)\"\n" 
+    - name: Add the lustre module
+      community.general.modprobe:
+        name: lustre
+        state: present
+ 
+- name: Install lustre client packages
+  become: true
+  hosts: client
+  tasks:
+    - name: Install lustre client packages
+      yum: 
+        name: ['kmod-lustre-client','lustre-client']
+        state: present
+      retries: 5
+    - name: Modify lnet option
+      copy:
+        dest: /etc/modprobe.d/lustre.conf
+        owner: root
+        group: root
+        content: "options lnet networks=\"tcp0(enp0s8)\"\n" 
+    - name: Add the lustre module
+      community.general.modprobe:
+        name: lustre
+        state: present

@@ -1,7 +1,7 @@
 ---
 - name: Install lustre repo
   become: true
-  hosts: all
+  hosts: frontend,backend
   tasks:
     - name: Create lustre yum repo file
       yum_repository:
@@ -35,5 +35,6 @@
         name: ["kernel","kernel-devel","kernel-headers","kernel-tools","kernel-tools-libs","kernel-tools-libs-devel"]
         disablerepo: base,extras,updates
         state: latest
-        
+
+          
  
