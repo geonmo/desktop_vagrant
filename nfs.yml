@@ -24,13 +24,13 @@
         path: /mnt/ramdisk_node2
         src:  node2.intranet.local:/mnt/ramdisk
         fstype: nfs
-        opts: defaults
+        opts: defaults,noauto
         state: present
     - mount:
         path: /mnt/ramdisk_node3
         src:  node3.intranet.local:/mnt/ramdisk
         fstype: nfs
-        opts: defaults
+        opts: defaults,noauto
         state: present
 
 
