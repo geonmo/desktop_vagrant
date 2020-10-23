@@ -1,0 +1,59 @@
+---
+- name: create build image
+  become: true
+  hosts: frontend,backend
+  ignore_errors: yes
+  tasks:
+    - name: Create img file
+      command: "dd if=/dev/zero of=/mnt/ramdisk/img.bin bs=1M count=4095"
+    - name: Create loopback device for block storage
+      command: "losetup /dev/loop0 /mnt/ramdisk/img.bin"
+     
+- name: Format and mount the lustre for mds
+  become: true
+  hosts: frontend
+  ignore_errors: yes
+  tasks:
+    - name: Create mdt, mgs
+      command: "mkfs.lustre --mgs --mdt --backfstype=ldiskfs --fsname=lustre --index=0 /dev/loop0"
+    - file:
+        path: /lustre
+        state: directory
+    - mount:
+        state: present
+        src: /dev/loop0 
+        path: /lustre
+        fstype: lustre
+        opts: defaults,noauto
+        
+ 
+- name: Format and mount the lustre for oss
+  become: true
+  hosts: backend
+  ignore_errors: yes
+  tasks:
+    - name: Create oss
+      command: "mkfs.lustre --ost --fsname=lustre --index={{ groups['backend'].index(inventory_hostname) }} --backfstype=ldiskfs --mgsnode=192.168.10.4@tcp0 /dev/loop0"
+    - mount:
+        state: present
+        src: /dev/loop0 
+        path: /lustre
+        fstype: lustre
+        opts: defaults,noauto
+    
+
+- name: mount client
+  become: true
+  hosts: client
+  tasks:
+    - name: Mount client
+      mount:
+        state: present
+        opts: defaults,noauto
+        src: 192.168.10.4@tcp:/lustre
+        path: /lustre
+        fstype: lustre
+      
+
+
+
