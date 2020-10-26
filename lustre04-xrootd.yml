@@ -1,0 +1,86 @@
+---
+- name: Setup xrootd on lustre 
+  become: true
+  hosts: backend
+  ignore_errors: yes
+  tasks:
+    - name: Mount client dir
+      file:
+        path: /lustre_client
+        state: directory
+    - mount:
+        state: mounted
+        path: /lustre_client
+        opts: defaults,noauto
+        src: 192.168.10.4@tcp:/lustre
+        fstype: lustre
+    - file:
+        path: /lustre_client/store
+        state: directory
+        mode: "0755"
+        owner: xrootd
+        group: xrootd
+
+    - copy:
+        dest: /etc/xrootd/xrootd-lustre.cfg
+        content: "oss.space public /lustre_client\n
+oss.localroot /lustre_client\n
+all.export /store\n
+set xrdr=node1.intranet.local\n
+all.manager $(xrdr):3121\n
+all.role server\n
+cms.space min 50m 100m\n
+cms.dfs limit 0 lookup distrib mdhold 0 redirect verify retries 2\n
+xrd.network nodnr norpipa routes split use enp0s8\n
+"
+    - name: XRootD service will be changed to lustre dfs
+      service: 
+        name: xrootd@benchmark
+        state: stopped
+    - service: 
+        name: cmsd@benchmark
+        state: stopped
+    - service: 
+        name:  xrootd@lustre
+        state: restarted
+    - service: 
+        name:  cmsd@lustre
+        state: restarted
+
+- name: Setup xrootd on lustre (mds)
+  become: true
+  hosts: frontend
+  ignore_errors: yes
+  tasks:
+    - copy:
+        dest: /etc/xrootd/xrootd-lustre.cfg
+        content: "
+all.export /store\n
+set xrdr=node1.intranet.local\n
+all.manager $(xrdr):3121\n
+all.role manager\n
+xrd.network nodnr norpipa routes split use enp0s8\n
+cms.space min 50m 100m\n
+cms.dfs limit 0 lookup distrib mdhold 0 redirect verify retries 2\n
+xrd.network nodnr norpipa routes split use enp0s8\n
+"
+    - name: XRootD service will be changed to lustre dfs
+      service: 
+        name: xrootd@benchmark
+        state: stopped
+    - service: 
+        name: cmsd@benchmark
+        state: stopped
+    - service: 
+        name:  xrootd@lustre
+        state: restarted
+    - service: 
+        name:  cmsd@lustre
+        state: restarted
+    
+    
+     
+      
+
+
+

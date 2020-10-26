@@ -20,7 +20,7 @@
         path: /lustre
         state: directory
     - mount:
-        state: present
+        state: mounted
         src: /dev/loop0 
         path: /lustre
         fstype: lustre
@@ -35,7 +35,7 @@
     - name: Create oss
       command: "mkfs.lustre --ost --fsname=lustre --index={{ groups['backend'].index(inventory_hostname) }} --backfstype=ldiskfs --mgsnode=192.168.10.4@tcp0 /dev/loop0"
     - mount:
-        state: present
+        state: mounted
         src: /dev/loop0 
         path: /lustre
         fstype: lustre
@@ -48,7 +48,7 @@
   tasks:
     - name: Mount client
       mount:
-        state: present
+        state: mounted
         opts: defaults,noauto
         src: 192.168.10.4@tcp:/lustre
         path: /lustre
