@@ -1,17 +1,12 @@
 [node]
-node0.intranet.local
-node1.intranet.local
-node2.intranet.local
-node3.intranet.local
+belle-se2-head.sdfarm.kr
+belle-se2-disk01.sdfarm.kr
+belle-se2-disk02.sdfarm.kr
 
+[head]
+belle-se2-head.sdfarm.kr
 
-[client]
-node0.intranet.local
-
-[frontend]
-node1.intranet.local
-
-[backend]
-node2.intranet.local
-node3.intranet.local
+[disk]
+belle-se2-disk01.sdfarm.kr
+belle-se2-disk02.sdfarm.kr
 

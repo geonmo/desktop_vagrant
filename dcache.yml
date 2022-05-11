@@ -1,14 +1,8 @@
 ---
-- name: dCache for Client
-  become: true
-  hosts: client
-  roles:
-    - role: geonmo.dcache
-      vars:
-        type: "client"
-
 - name: dCache for dcache non-pool server
-  hosts: frontend
+  hosts: head
+  vars: 
+    - dcache_version: 7.2.15
   become: true
   no_log: false
   roles:
@@ -17,7 +11,11 @@
         type: "frontend"
       
 - name: dCache for dcache pool server
-  hosts: backend
+  hosts: disk
+  vars: 
+    - dcache_version: 7.2.15
+    - volume_path: /mnt/dcache
+    - headnode: belle-se2-head.sdfarm.kr
   become: true
   roles:
     - role: geonmo.dcache
