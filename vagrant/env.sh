@@ -1,1 +1,0 @@
-VAGRANT_EXPERIMENTAL="disks"
